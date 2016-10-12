@@ -1,8 +1,8 @@
 # Tensor
-Tensor, formerly bachelorproject 2015-2016 (Abe Wiersma) 
+Tensor (Unified Streaming), formerly bachelorproject 2015-2016 (Abe Wiersma) 
 
-Installing -- Tensor
-----------
+Installing for development
+--------------------------
 
 Python 3.X
 
@@ -69,7 +69,7 @@ Grunt
     bower install
     grunt
 
-Installing -- Origin
+Installing on remote -- Origin
 ----------
 
 For PCP installation http://www.pcp.io/download.html
@@ -80,11 +80,6 @@ run.sh -- Development
 
 Possible Errors
 ---------------
-
-**Unsupported locale options**
-
-    sudo locale-gen nl_NL
-    sudo locale-gen nl_NL.UTF-8
 
 **MOD_WSGI trouble when deploying.**
 
