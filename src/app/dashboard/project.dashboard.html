@@ -1,0 +1,107 @@
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+        <form role="form" name="form">
+            <div class="input-group input-group-lg" ng-class="{'has-error': form.host.$invalid && form.host.$dirty}">
+                <span class="input-group-addon">URL</span>
+                <input type="text" class="form-control" id="hostnameInput" name="host" data-content="Please enter a manifest URL. Port for PCP can be specified using the <domain>:<port>/example.ism/manifest format." rel="popover" data-placement="bottom" data-trigger="hover" data-container="body" ng-model="vm.inputHost" ng-change="vm.updateHost()" ng-model-options="{ updateOn: 'default', debounce: 2000 }" delay="2000" ng-disabled="flags.contextUpdating == true" required placeholder="http://example.com/video.ism/manifest">
+                <p class="form-control-feedback" ng-show="flags.contextUpdating">
+                    <i class="fa fa-refresh fa-spin fa-2x" ng-show="flags.contextUpdating"></i>
+                </p>
+                <p class="form-control-feedback" ng-show="!flags.contextAvailable && !flags.contextUpdating && !flags.manifestAvailable">
+                    <i class="fa fa-times fa-2x"></i>
+                </p>
+                <p class="form-control-feedback" ng-show="flags.contextAvailable && flags.manifestAvailable">
+                    <i class="fa fa-check fa-2x"></i>
+                </p>
+                <div class="input-group-btn">
+                    <button class="btn wrk-button" type="button" ng-click="vm.toggleWRK()" ng-class="flags.wrkRunning ? 'btn-danger' : 'btn-success'">
+                        <span>{{flags.wrkRunning ? 'Stop' : 'Start'}}</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="row options-row">
+            <div class="col-lg-4 col-md-6">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">
+                        Connections <i class="fa fa-info-circle" rel="popover" data-placement="bottom" data-trigger="hover" data-container="body" data-content="The range of connections the load test traverses. Default: 1-500"></i>
+                    </span>
+                    <input class="form-control" name="connectionsMin" type=number name="input" ng-model="properties.connections.val[0]" min="properties.connections.options.min" max="properties.connections.options.max" ng-change="vm.updateConnections()">
+                    <span class="input-group-addon" style="border-left: 0; border-right: 0; padding-left:8px; padding-right:8px;"> To </span>
+                    <input class="form-control" name="connectionsMax" type=number name="input" ng-model="properties.connections.val[1]" min="properties.connections.options.min" max="properties.connections.options.max" ng-change="vm.updateConnections()">
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">
+                        Repeats
+                        <i class="fa fa-info-circle" el="popover" data-placement="bottom" data-trigger="hover" data-container="body" data-content="The number of times the load test stays at the same amount of connections. Default: 5"></i>
+                    </span>
+                    <div class="in-input-group">
+                        <rzslider class="repeat-slider" rz-slider-model="properties.connectionSteps.val" rz-slider-options="properties.connectionSteps.options">
+                        </rzslider>
+                    </div>
+                    <div class="input-group-btn">
+                        <button class="btn btn-lg btn-block btn-default min-margin min-pad-left min-pad-right" ng-click="vm.freeze()" ng-class="flags.freezeConnections ? 'btn-danger' : 'btn-success'">
+                            <span>Freeze</span>
+                            <!-- <i class="fa fa-info-circle" el="popover" data-placement="bottom" data-trigger="hover" data-container="body" data-content="Freeze the amount of connections at the current amount."></i> -->
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">
+                        Selection
+                        <i class="fa fa-info-circle" el="popover" data-placement="bottom" data-trigger="hover" data-container="body" data-content="The selection of segment bitrates the load test uses to pull from an Origin. Default: All"></i>
+                    </span>
+                    <div class="in-input-group bit-range">
+                        <rzslider class="bit-range-slider" rz-slider-model="properties.bitRange.min" rz-slider-high="properties.bitRange.max" rz-slider-options="properties.bitRange.options">
+                        </rzslider>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row options-row">
+            <div class="col-lg-2">
+                <button class="btn btn-lg btn-block btn-default min-margin min-pad-left min-pad-right" ng-click="vm.dumpMetricData()">
+                    <span>Save Metrics</span>
+                </button>
+            </div>
+            <div class="col-lg-2">
+                <label class="btn btn-lg btn-block btn-default btn-file min-margin min-pad-left min-pad-right" for="load-metric-input">
+                    <input class="hidden" id="load-metric-input" type="file" fileread="properties.metricsFile">
+                    <span>Load Metrics</span>
+                </label>
+            </div>
+            <div class="col-lg-2">
+                <button class="btn btn-lg btn-block btn-default btn-file min-margin min-pad-left min-pad-right" ng-click="vm.dumpGraphs()">
+                    <span>Save Graphs</span>
+                </button>
+            </div>
+        </div>
+        <div class="row alert-container">
+            <div class="col-lg-12">
+                <uib-alert ng-repeat="alert in alerts" dismiss-on-timeout="{{alert.timeout}}" type="{{alert.type}}" close="closeAlert($index)">
+                    <strong>{{alert.type}}!</strong> 
+                    {{alert.msg}}
+                </uib-alert>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="layout-container col-lg-8 col-lg-offset-2">
+        <div ng-repeat="layout in layouts" class="row" dashboard="layout.dashboard" template-url="app/dashboard/project.dashboard.layout.html"></div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+        $('#hostnameInput').popover();
+        $('.input-group .input-group-addon i.fa-info-circle').popover();
+        $('btn.btn i.fa-info-circle').popover();
+    }());
+</script>

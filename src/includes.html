@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/static/css/lib.css" />
+<link rel="stylesheet" href="/static/css/app.css" />
+
+<script>
+    var tensor = {};
+</script>
+
+{% if data %}
+    <script>
+        tensor = {{json.dumps(data)|safe}};
+    </script>
+{% endif %}
+
+<script src="/static/js/lib.js"></script>
+<script src="/static/js/app.js"></script>

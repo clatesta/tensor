@@ -1,0 +1,11 @@
+DEBUG = True
+
+SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/app.db'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+DATABASE_CONNECT_OPTIONS = {}
+SECRET_KEY = 'secret_key'
+
+CSRF_ENABLED = True
+CSRF_SESSION_KEY = 'secret_key'
+
+USP_LICENSE = "usp-license.key"

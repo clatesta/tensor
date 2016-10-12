@@ -1,0 +1,18 @@
+Jenkins API entry point.
+
+duration: 3s # Default
+connections: 1 # Default
+host: http://demo.unified-streaming.com # Default
+
+curl -H "Content-Type: application/json" -X POST -d '{}' urltensor
+
+Example:
+curl -H "Content-Type: application/json" -X POST -d '{"host":"demo.unified-streaming.com/video/tears-of-steel/tears-of-steel.ism/Manifest", "connections": 100}' http://stats.unified-streaming.com/api/jenkins/
+
+Ingest load testing.
+
+push_input_stream -l -u http://live.abewiersma.nl/channel01/channel01.isml/channel01.ism oceans-250k.ismv oceans-380k.ismv oceans-578k.ismv oceans-64k.isma oceans-879k.ismv oceans-1336k.ismv oceans-2032k.ismv
+
+Outgest load testing.
+
+./app/wrk/wrk -t 1 -H "Connection: Close" -d 5s -s ./app/wrk/scripts/get.lua -c 1 http://usp.abewiersma.nl/video/tears-of-steel/tears-of-steel.ism/.mpd

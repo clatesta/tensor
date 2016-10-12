@@ -1,0 +1,49 @@
+<div ng-class="layout.player ? 'col-lg-8' : 'col-lg-12'" ng-show="layout.visibility()">
+    <div ng-model="widgets" class="dashboard-widget-area">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="layout-title">
+                    <a href="{{layout.link}}">
+                        {{layout.title}}{{layout.titleAddition ? ' on ' + properties.lastConnections + ' connections' : ''}}
+                    </a>
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div ng-repeat="widget in widgets" ng-class="layout.widgetWidth" class="widget-wrapper" widget>
+                <div class="widget panel panel-default">
+                    <div class="widget-header panel-heading">
+                        <h3 class="panel-title">
+                            <span class="widget-title">{{widget.title}}</span>
+                            <span class="label label-primary" ng-if="!vm.widgetOptions.hideWidgetName">{{widget.name}}</span>
+                            <span ng-click="removeWidget(widget);" class="glyphicon glyphicon-remove" ng-if="!vm.widgetOptions.hideWidgetClose"></span>
+                            <span ng-click="openWidgetDialog(widget);" class="glyphicon glyphicon-cog" ng-if="!vm.widgetOptions.hideWidgetSettings"></span>
+                            <a download=widget.title ng-click="vm.dumpGraph(widget);" class="pull-right graph-button">
+                                <i class="fa fa-floppy-o"></i>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="panel-body widget-content" ng-style="widget.contentStyle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-4 widget-wrapper" ng-if="layout.player">
+    <div>
+        <h3 class="layout-title">Stream monitor</h3>
+    </div>
+    <div class="panel panel-default video-panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span>DASH-IF Reference Client 2.0.0</span>
+            </h3>
+        </div>
+        <div class="panel-body widget-content">
+            <div class='videoWrapper'>
+                <i class="fa fa-bolt fa-5x widget-icon" ng-show="!vm.populatePlayer()"></i>
+                <video id="videoPlayer" controls="true" ng-show="vm.populatePlayer()"></video>
+            </div>
+        </div>
+    </div>
+</div>

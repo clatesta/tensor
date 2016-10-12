@@ -1,0 +1,53 @@
+#!/usr/bin/python3
+import tarfile
+import os
+import fnmatch
+from subprocess import call
+
+VERSION = '0.1.0'
+ignore_list = ['__pycache__', 'usp-license.key', '*.pyc']
+
+
+# Scrubbing data
+def tensor_filter(tarinfo):
+    tarinfo.uid = tarinfo.gid = 0
+    tarinfo.uname = tarinfo.gname = "root"
+
+    for pattern in ignore_list:
+        if fnmatch.fnmatch(os.path.basename(tarinfo.name), pattern):
+            return None
+    return tarinfo
+
+
+def main():
+    print('-' * 80)
+    print('Start of grunt build')
+    print()
+    returncode = call(["grunt"])
+    if(returncode != 0):
+        return returncode
+    print('End of grunt build')
+    print('-' * 80)
+    print('Start of packaging')
+    dist_list = next(os.walk('dist'))[1]
+    app_list = next(os.fwalk('app'))
+
+    tar = tarfile.open('deployment/tensor-' + VERSION + '.tar.gz', 'w:gz')
+    tar.add('deployment/app.wsgi', arcname="app.wsgi")
+    tar.add('def_config.py', arcname="config.py")
+    tar.add('create_db.py')
+    tar.add('requirements.txt')
+
+    for folder in app_list[1]:
+        tar.add('app/' + folder, arcname="app/"+folder, filter=tensor_filter)
+    for folder in app_list[2]:
+        tar.add('app/' + folder, arcname="app/"+folder, filter=tensor_filter)
+    for folder in dist_list:
+        tar.add('dist/' + folder, arcname="app/"+folder)
+
+    tar.close()
+    print('End of packaging')
+    print('-' * 80)
+
+if __name__ == '__main__':
+    main()

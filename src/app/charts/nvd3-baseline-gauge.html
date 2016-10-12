@@ -1,0 +1,5 @@
+<i class="fa fa-line-chart fa-5x widget-icon" ng-hide="flags.baselineMetricsAvailable || flags.baselineUpdating"></i>
+<i class="fa fa-spinner fa-spin fa-5x widget-icon" ng-show="flags.baselineUpdating"></i>
+<div id="{{id}}" class="chart" ng-hide="!flags.baselineMetricsAvailable || flags.baselineUpdating">
+    <svg></svg>
+</div>
