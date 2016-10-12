@@ -11,19 +11,11 @@ VirtualEnv
 
     pip install virtualenv
     virtualenv venv
-Python-Pip
+Python Packages
 
-    wget https://bootstrap.pypa.io/get-pip.py
-    python get-pip.py
-Flask
-    
-    pip install flask
-Flask-Failsafe
-    
-    pip install flask-failsafe
-Flask-SqlAlchemy
-    
-    pip install flask-sqlalchemy
+    ./venv/bin/activate
+    pip install -r requirements.txt
+    deactivate
 
 Lua
 
