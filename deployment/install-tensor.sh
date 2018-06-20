@@ -38,7 +38,7 @@ function install_tensor() {
     fi
     cd $directory
 
-    wget $url
+    wget --no-check-certificate $url
     tar -xf tensor-$version.tar.gz
     rm tensor-$version.tar.gz
     
@@ -60,15 +60,15 @@ function install_lua() {
     sudo apt-get -y install libreadline-dev 
     sudo apt-get install lib32ncurses5-dev
 
-    wget http://www.lua.org/ftp/lua-5.1.5.tar.gz
-    tar zxpf lua-5.1.5.tar.gz
-    cd lua-5.1.5
+    wget http://www.lua.org/ftp/lua-5.3.4.tar.gz
+    tar zxpf lua-5.3.4.tar.gz
+    cd lua-5.3.4
     make linux && sudo make install
 
     cd $wd
-    wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
-    tar zxpf luarocks-2.2.2.tar.gz
-    cd luarocks-2.2.2
+    wget http://luarocks.org/releases/luarocks-2.4.4.tar.gz
+    tar zxpf luarocks-2.4.4.tar.gz
+    cd luarocks-2.4.4
     ./configure; sudo make bootstrap
 
     cd $wd

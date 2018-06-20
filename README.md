@@ -1,6 +1,14 @@
 # Tensor
 Tensor (Unified Streaming), formerly bachelorproject 2015-2016 (Abe Wiersma) 
 
+Install procedure updated for and tested on Ubuntu 16.04 LTS.
+
+Installing the pre-packaged version (once in venv)
+-----------------------------------
+
+    cd deployment/
+    bash install-remote.sh
+
 Installing for development
 --------------------------
 
@@ -11,17 +19,23 @@ VirtualEnv
 
     pip install virtualenv
     virtualenv venv
+
+Misc bash tools
+
+    sudo apt-get install libreadline6 libreadline6-deiv
+    sudo apt-get install unzip
+    sudo apt-get install cmake
+
 Python Packages
 
-    ./venv/bin/activate
+    . venv/bin/activate
     pip install -r requirements.txt
     deactivate
-
 Lua
 
-    curl -R -O http://www.lua.org/ftp/lua-5.1.5.tar.gz
-    tar zxf lua-5.1.5.tar.gz
-    cd lua-5.1.5
+    curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz
+    tar zxf lua-5.3.4.tar.gz
+    cd lua-5.3.4
     sudo make linux test
     sudo make install
 LuaJIT
@@ -32,9 +46,9 @@ LuaJIT
     make && sudo make install
 Luarocks
 
-    wget http://luarocks.org/releases/luarocks-2.2.2.tar.gz
-    tar zxpf luarocks-2.2.2.tar.gz
-    cd luarocks-2.2.2
+    wget http://luarocks.org/releases/luarocks-2.4.4.tar.gz
+    tar zxpf luarocks-2.4.4.tar.gz
+    cd luarocks-2.4.4
     ./configure; sudo make bootstrap
 Packages required by Lua
     
@@ -42,13 +56,12 @@ Packages required by Lua
 libgif
     
     sudo apt-get install libgif-dev
-NodeJS
+NodeJS (LTS)
 
-    wget https://nodejs.org/dist/v4.2.2/node-v4.2.2.tar.gz
-    tar zxpf node-v4.2.2.tar.gz
-    cd node-v4.2.2
+    wget https://nodejs.org/dist/v8.11.3/node-v8.11.3.tar.gz
+    tar zxpf node-v8.11.3.tar.gz
+    cd node-v8.11.3
     ./configure; sudo make install
-
 Bower
 
     sudo npm install -g bower
@@ -65,6 +78,12 @@ Installing on remote -- Origin
 ----------
 
 For PCP installation http://www.pcp.io/download.html
+
+    sudo apt-get install pcp
+    invoke-rc.d pmcd start
+    invoke-rc.d pmie start
+    invoke-rc.d pmlogger start
+
 
 Running
 -------
@@ -89,7 +108,7 @@ Possible Errors
     sudo touch /etc/apache2/mods-available/wsgi_express.load /etc/apache2/mods-available/wsgi_express.conf
 Content of /etc/apache2/mods-available/wsgi_express.load
 
-    LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi-py34.cpython-34m.so
+    LoadModule wsgi_module /usr/lib/apache2/modules/mod_wsgi-py35.cpython-35m-x86_64-linux-gnu.so
 Content of /etc/apache2/mods-available/wsgi_express.conf
 
     WSGIPythonHome /venv_path
